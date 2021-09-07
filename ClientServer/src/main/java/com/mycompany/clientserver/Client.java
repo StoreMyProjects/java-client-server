@@ -35,7 +35,6 @@ public class Client extends javax.swing.JFrame {
     }
     public void StartReading(){
         Runnable r1 = () -> {
-            //System.out.println("reader started...");
             try{
                 while(true){
                 String msg = in.readUTF();
@@ -44,6 +43,7 @@ public class Client extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Server terminated the chat");
                     jTextField1.setEditable(false);
                     socket.close();
+                    this.setVisible(false);
                     break;
                 }
                 //System.out.println("Server : "+msg);
@@ -58,20 +58,17 @@ public class Client extends javax.swing.JFrame {
     }
     public void StartWriting(){
         Runnable r2=()->{
-            //System.out.println("writer started...");
             try{
                 while(!socket.isClosed()){
                     DataInputStream in1 = new DataInputStream(System.in);
                     String content = in1.readUTF();
 
                     out.writeUTF(content);
-                    out.flush();
                     if (content.equals("exit")) {
                         socket.close();
                     }
                 }
             }catch(Exception e){
-                //e.printStackTrace();
                 System.out.println("connection is closed");
             } 
         };
@@ -157,11 +154,11 @@ public class Client extends javax.swing.JFrame {
             String contentToSend = jTextField1.getText();
             if (contentToSend.equals("exit")){
                 jTextArea1.append(" ");
+                this.setVisible(false);
             }else{
                 jTextArea1.append(contentToSend + "\n");
             }
             out.writeUTF(contentToSend);
-            out.flush();
             jTextField1.setText("");
             jTextField1.requestFocus();
         }catch(Exception e){}
