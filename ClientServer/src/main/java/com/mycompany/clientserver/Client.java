@@ -20,7 +20,7 @@ public class Client extends javax.swing.JFrame {
         
         try{
             System.out.println("sending request to server...");
-            socket = new Socket("192.168.226.99",2021);
+            socket = new Socket("ip-address",2021);
             System.out.println("connected...");
 
             in = new DataInputStream(socket.getInputStream());
